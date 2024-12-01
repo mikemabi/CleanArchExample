@@ -14,6 +14,7 @@ namespace CleanArchExample.Core.Interfaces
         Task AddProduct(Product product);
         Task EditProduct(Product product);
         Task DeleteProduct(int id);
+        IQueryable<Product> GetProducts();
 
     }
 }

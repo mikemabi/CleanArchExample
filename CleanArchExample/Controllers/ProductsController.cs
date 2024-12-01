@@ -18,13 +18,17 @@ namespace CleanArchExample.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> ProductsFromDb()
+        public async Task<IActionResult> ProductsFromDb(int? page)
         {
 
-            var products = await _productService.GetAllProductsAsync();
-            ProductListModel listModel = new ProductListModel();
-            listModel.Products = products.ToList();
-            return View(listModel);
+            //var products = await _productService.GetAllProductsAsync();
+            //ProductListModel listModel = new ProductListModel();
+            //listModel.Products = products.ToList();
+            int pageSize = 5;
+            int pageNumber = page ?? 1;
+            var listModel = _productService.GetPaginatedProducts(pageNumber: pageNumber, pageSize: pageSize);
+            var productModel = new ProductListModel { Products = listModel };
+            return View(productModel);
         }
 
         [HttpGet]

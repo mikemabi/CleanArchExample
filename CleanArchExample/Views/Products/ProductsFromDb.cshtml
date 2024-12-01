@@ -1,5 +1,8 @@
 ﻿@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery AntiForgery
 @model ProductListModel
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+
 
 
 
@@ -49,10 +52,10 @@
                 </td>
                 <td>
                     @* <form id="deleteForm" action="/products/delete" method="post">
-                        <input type="hidden" name="id" value="@p.Id" />
-                        <input type="hidden" name="__RequestVerificationToken" value="@AntiForgery.GetTokens(ViewContext.HttpContext).RequestToken" />
-                        <input type="submit" onclick="return confirmDelete()" value="Delete" />
-                    </form> *@
+                <input type="hidden" name="id" value="@p.Id" />
+                <input type="hidden" name="__RequestVerificationToken" value="@AntiForgery.GetTokens(ViewContext.HttpContext).RequestToken" />
+                <input type="submit" onclick="return confirmDelete()" value="Delete" />
+                </form> *@
                     <button onclick="confirmDelete(@p.Id)">Delete</button>
                 </td>
                 <td>
@@ -62,6 +65,9 @@
         }
     </tbody>
 </table>
+<div class="pagination">
+    @Html.PagedListPager(Model.Products, page => Url.Action("ProductsFromDb", new { page }))
+</div>
 
 <script>
     function confirmDelete(id) {
@@ -77,10 +83,9 @@
 
             // //     }
             // // });
-            $.post('@Url.Action("Delete","Products")', { id: id })
-                .done(function (response) 
-                { 
-                    window.location.href = response; 
+            $.post('@Url.Action("Delete", "Products")', { id: id })
+                .done(function (response) {
+                    window.location.href = response;
                 });
         }
         return false;

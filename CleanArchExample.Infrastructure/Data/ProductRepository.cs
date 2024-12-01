@@ -48,5 +48,9 @@ namespace CleanArchExample.Infrastructure.Data
         {
             return await _dbContext.Products.FindAsync(id);
         }
+        public IQueryable<Product> GetProducts()
+        {
+            return _dbContext.Products.AsQueryable();
+        }
     }
 }

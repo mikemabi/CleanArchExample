@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace CleanArchExample.Application.Services
 {
@@ -81,6 +82,18 @@ namespace CleanArchExample.Application.Services
                 Price = product.Price,
                 Category = product.Category,
             };
+        }
+        public IPagedList<ProductDto> GetPaginatedProducts(int pageNumber, int pageSize)
+        {
+            var query = _productRepository.GetProducts();
+            return query.Select(x => new ProductDto
+            {
+                Category = x.Category,
+                Name = x.Name,
+                Description = x.Description,
+                Price = x.Price,
+                Id = x.Id,
+            }).ToPagedList(pageNumber, pageSize);
         }
     }
 }
